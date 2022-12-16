@@ -20,16 +20,44 @@ function createEmployeeRecord([firstName,familyName,title,payPerHour,timeInEvent
    } 
    return employee;
 }
- 
-const allWagesFor = function () {
-    const eligibleDates = this.timeInEvents.map(function (e) {
-        return e.date
-    })
 
-    const payable = eligibleDates.reduce(function (memo, d) {
-        return memo + wagesEarnedOnDate.call(this, d)
-    }.bind(this), 0) // <== Hm, why did we need to add bind() there? We'll discuss soon!
-
-    return payable
+function createEmployeeRecords(Rows){
+    return Rows.map(createEmployeeRecord)
 }
+
+function createTimeInEvent(dateStamp){
+    let time = dateStamp.split(' ')
+    const checkIn = {
+    }
+    checkIn.type = "TimeIn"
+    checkIn.hour = parseInt(time[1])
+    checkIn.date = time[0]
+    this.timeInEvents.push(checkIn)
+    
+    return this 
+}
+
+function createTimeOutEvent(dateStamp){
+    let time = dateStamp.split(' ')
+    const checkOut = {
+    }
+    checkOut.type = "TimeOut"
+    checkOut.hour = parseInt(time[1])
+    checkOut.date = time[0]
+    this.timeInEvents.push(checkOut)
+    
+    return this 
+}
+
+//const allWagesFor = function () {
+   // const eligibleDates = this.timeInEvents.map(function (e) {
+        //return e.date
+    //})
+
+    //const payable = eligibleDates.reduce(function (memo, d) {
+        //return memo + wagesEarnedOnDate.call(this, d)
+   // }.bind(this), 0) // <== Hm, why did we need to add bind() there? We'll discuss soon!
+
+   // return payable
+//}
 
