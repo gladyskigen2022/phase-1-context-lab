@@ -8,6 +8,7 @@
  As a result, the lessons for this function will pass *and* it will be available
  for you to use if you need it!
  */
+// in this lab we are using this alot unlike in the introduction to context lab
 
 function createEmployeeRecord([firstName,familyName,title,payPerHour,timeInEvents,timeOutEvents]){
    let employee = {
@@ -48,6 +49,28 @@ function createTimeOutEvent(dateStamp){
     
     return this 
 }
+
+//Given a date, find the number of hours elapsed between that date's timeInEvent and timeOutEvent
+function hoursWorkedOnDate(date){
+    let timeIn = this.timeInEvents.find((timeCards) => timeCards.date ===date)
+    let timeOut = this.timeOutEvents.find((timeCards) => timeCards.date ===date)
+    let hours = (timeOut.hour - timeIn.hour)/100
+    //console.log(timeIn)
+    //console.log(timeOut)
+    //console.log(hours)
+    return hours
+}
+
+//Using hoursWorkedOnDate, multiply the hours by the record's payRate to determine amount owed. 
+//Amount should be returned as a number.
+function wagesEarnedOnDate(date){
+    let payOwed = this.payPerHour
+    let hours = hoursWorkedOnDate.call(this,date)
+    let wage = payOwed * hours
+    return wage
+}
+
+
 
 //const allWagesFor = function () {
    // const eligibleDates = this.timeInEvents.map(function (e) {
