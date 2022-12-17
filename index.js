@@ -1,7 +1,7 @@
 /* Your Code Here */
 
 /*
- We're giving you this function. Take a look at it, you might see some usage
+ We're giving you this function[allWagesFor]. Take a look at it, you might see some usage
  that's new and different. That's because we're avoiding a well-known, but
  sneaky bug that we'll cover in the next few lessons!
 
@@ -10,7 +10,7 @@
  */
 // in this lab we are using this alot unlike in the introduction to context lab
 
-function createEmployeeRecord([firstName,familyName,title,payPerHour,timeInEvents,timeOutEvents]){
+function createEmployeeRecord([firstName,familyName,title,payPerHour]){
    let employee = {
     firstName: firstName,
     familyName: familyName,
@@ -23,37 +23,37 @@ function createEmployeeRecord([firstName,familyName,title,payPerHour,timeInEvent
 }
 
 function createEmployeeRecords(Rows){
-    return Rows.map(createEmployeeRecord)
+    return Rows.map(empRecord => createEmployeeRecord(empRecord))
 }
 
 function createTimeInEvent(dateStamp){
     let time = dateStamp.split(' ')
-    const checkIn = {
-    }
-    checkIn.type = "TimeIn"
-    checkIn.hour = parseInt(time[1])
-    checkIn.date = time[0]
-    this.timeInEvents.push(checkIn)
+    const newTimeEvent ={}
+    
+    newTimeEvent.type = "TimeIn"
+    newTimeEvent.hour = parseInt(time[1])
+    newTimeEvent.date = time[0]
+    this.timeInEvents.push(newTimeEvent)
     
     return this 
 }
 
 function createTimeOutEvent(dateStamp){
     let time = dateStamp.split(' ')
-    const checkOut = {
+    const newTimeEvent = {
     }
-    checkOut.type = "TimeOut"
-    checkOut.hour = parseInt(time[1])
-    checkOut.date = time[0]
-    this.timeInEvents.push(checkOut)
+    newTimeEvent.type = "TimeOut"
+    newTimeEvent.hour = parseInt(time[1])
+    newTimeEvent.date = time[0]
+    this.timeOutEvents.push(newTimeEvent)
     
     return this 
 }
 
 //Given a date, find the number of hours elapsed between that date's timeInEvent and timeOutEvent
 function hoursWorkedOnDate(date){
-    let timeIn = this.timeInEvents.find((timeCards) => timeCards.date ===date)
-    let timeOut = this.timeOutEvents.find((timeCards) => timeCards.date ===date)
+    let timeIn = this.timeInEvents.find((event) => event.date ===date)
+    let timeOut = this.timeOutEvents.find((event) => event.date ===date)
     let hours = (timeOut.hour - timeIn.hour)/100
     //console.log(timeIn)
     //console.log(timeOut)
@@ -70,17 +70,34 @@ function wagesEarnedOnDate(date){
     return wage
 }
 
+//this is the code prvided for us to be revisted in details later
+const allWagesFor = function () {
+const eligibleDates = this.timeInEvents.map(function (e) {
+    return e.date
+    })
+
+    const payable = eligibleDates.reduce(function (memo, d) {
+        return memo + wagesEarnedOnDate.call(this, d)
+         }.bind(this), 0) // <== Hm, why did we need to add bind() there? We'll discuss soon!
+
+   return payable
+}
+
+function findEmployeeByFirstName(srcArray, firstName){
+    for(let i in srcArray) {
+        if(srcArray[i].firstName === firstName){
+            return srcArray[i]
+        }
+    }
+}
+
+//calculate payroll using allWagesFor
+function calculatePayroll(arrayOfEmployeeRecords){
+    return arrayOfEmployeeRecords.reduce(function(payroll,record){
+        return payroll + allWagesFor.call(record)
+    },0)
+
+}
 
 
-//const allWagesFor = function () {
-   // const eligibleDates = this.timeInEvents.map(function (e) {
-        //return e.date
-    //})
-
-    //const payable = eligibleDates.reduce(function (memo, d) {
-        //return memo + wagesEarnedOnDate.call(this, d)
-   // }.bind(this), 0) // <== Hm, why did we need to add bind() there? We'll discuss soon!
-
-   // return payable
-//}
 
